@@ -1,0 +1,23 @@
+#!/bin/bash
+
+if [ -z $1 ]; then
+    dev="wlan0"
+else
+    dev=$1
+fi
+#dev="wlo1"
+
+echo "Hello from KRP <krp@gtux.in>"
+killall wpa_supplicant
+#systemctl disable NetworkManager.service
+#systemctl stop NetworkManager.service
+nmcli device set $dev managed no
+#macchanger wlp1s0 -r
+dhcpcd $dev -4 &
+wpa_supplicant -D nl80211 -i $dev -c /etc/wlan/Amrita.conf 
+dhcpcd -k $dev
+nmcli device set $dev managed yes
+#systemctl enable NetworkManager
+#systemctl start NetworkManager
+killall dhcpcd
+
