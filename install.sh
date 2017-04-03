@@ -20,9 +20,10 @@ read ssid
 
 echo -n "Username: "
 read username
+username=${username,,}
 
 echo -n "Password: "
-read password
+read -s password
 
 config="network={
     ssid=\"$ssid\"
